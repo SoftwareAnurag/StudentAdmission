@@ -1,0 +1,72 @@
+<div class="container mt-4">
+  <h3 class="mb-4">Step 1: Student Information</h3>
+
+  <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+    <div class="row mb-3">
+      <div class="col">
+        <label>First Name</label>
+        <input type="text" class="form-control" formControlName="firstName">
+        <div class="text-danger" *ngIf="studentForm.get('firstName')?.touched && studentForm.get('firstName')?.invalid">
+          First Name is required
+        </div>
+      </div>
+      <div class="col">
+        <label>Last Name</label>
+        <input type="text" class="form-control" formControlName="lastName">
+        <div class="text-danger" *ngIf="studentForm.get('lastName')?.touched && studentForm.get('lastName')?.invalid">
+          Last Name is required
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>Email</label>
+      <input type="email" class="form-control" formControlName="email">
+      <div class="text-danger" *ngIf="studentForm.get('email')?.touched && studentForm.get('email')?.invalid">
+        Valid email is required
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>Date of Birth</label>
+      <input type="date" class="form-control" formControlName="dob">
+      <div class="text-danger" *ngIf="studentForm.get('dob')?.touched && studentForm.get('dob')?.invalid">
+        Date of birth is required
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>Gender</label><br>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="gender" value="M">
+        <label class="form-check-label">Male</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="gender" value="F">
+        <label class="form-check-label">Female</label>
+      </div>
+      <div class="text-danger" *ngIf="studentForm.get('gender')?.touched && studentForm.get('gender')?.invalid">
+        Gender is required
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>Phone Number</label>
+      <input type="text" class="form-control" formControlName="phone">
+      <div class="text-danger" *ngIf="studentForm.get('phone')?.touched && studentForm.get('phone')?.invalid">
+        Enter a valid 10-digit phone number
+      </div>
+    </div>
+     <div class="mb-3">
+      <label>Address</label>
+      <textarea formControlName="address" class="form-control"></textarea>
+      <div class="text-danger" *ngIf="studentForm.get('address')?.touched && studentForm.get('address')?.invalid">
+        Enter a valid Address
+      </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Next</button>
+  </form>
+</div>
+
+

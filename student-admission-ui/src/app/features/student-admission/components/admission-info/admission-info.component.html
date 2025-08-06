@@ -1,0 +1,26 @@
+<div class="container mt-4">
+  <h3 class="mb-4">Step 2: Student Information</h3>
+<div *ngIf="studentID; else noData">
+  <p><strong>Student ID:</strong> {{ studentID }}</p>
+</div>
+<ng-template #noData>
+  <p style="color: red;">⚠ No Student ID found. Please complete Step 1 first.</p>
+</ng-template>
+  <form>
+    <div class="row mb-3">
+      <div class="col">
+        <label>Course</label>
+       
+    
+      </div>
+      <div class="col">
+        <label>Session </label>
+       
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Next</button>
+  </form>
+</div>
+
+
+
