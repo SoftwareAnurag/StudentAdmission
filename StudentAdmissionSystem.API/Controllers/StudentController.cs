@@ -20,7 +20,7 @@ namespace StudentAdmissionSystem.API.Controllers
         public StudentController()
         {
             var context = new ApplicationDbContext();
-            // Manual initialization — tightly coupled
+            // Manual initialization — tightly coupled test
             _service = new StudentService(new StudentRepository(context));
         }
 
