@@ -14,7 +14,7 @@ namespace StudentAdmissionSystem.API.Controllers
     public class SessionController : ApiController
     {
         private readonly ISessionService _sessionService;
-
+        // API for Get Session List
         public SessionController() {
 
             var context = new ApplicationDbContext();
