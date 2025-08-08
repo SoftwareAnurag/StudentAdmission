@@ -15,7 +15,7 @@ namespace StudentAdmissionSystem.API.Controllers
     {
         private readonly ICourseService _courseService;
 
-        // GET: Courses
+        // GET: Courses List
         public CoursesController()
         {
             var context = new ApplicationDbContext();
