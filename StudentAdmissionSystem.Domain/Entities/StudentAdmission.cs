@@ -16,8 +16,8 @@ namespace StudentAdmissionSystem.Domain.Entities
         public int CourseId { get; set; }
         public int SessionId { get; set; }
         public int StatusId { get; set; }
-        public DateTime AdmissionDate { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public DateTime? AdmissionDate { get; set; }
+        public DateTime? CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
 
 

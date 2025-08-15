@@ -20,15 +20,11 @@ namespace StudentAdmissionSystem.Application.Services
 
         public int AddStudent(StudentDto dto)
         {        
-
-            // ✅ Range validation
-            if (dto.DateOfBirth.Date < new DateTime(1900, 1, 1))
-                throw new ArgumentException("Date of Birth must be after 1900.");
-
+          
             var student = new Student
             {
                 FullName = dto.FullName,
-                DateOfBirth = dto.DateOfBirth.Date,
+                DateOfBirth = dto.DateOfBirth.Value,
                 Gender = dto.Gender,
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,

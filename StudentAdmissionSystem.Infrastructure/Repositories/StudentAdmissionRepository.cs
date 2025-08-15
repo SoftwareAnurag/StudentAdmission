@@ -25,21 +25,6 @@ namespace StudentAdmissionSystem.Infrastructure.Repositories
             _context.StudentAdmissions.Add(admission);
             _context.SaveChanges();
         }
-
-        public IEnumerable<StudentAdmission> GetAll() {
-
-            return _context.StudentAdmissions
-        .Include(a => a.Status)
-        .Include(a => a.Student)
-        .Include(a => a.Course)
-        .Include(a => a.Session)
-        .ToList();
-            //return _context.StudentAdmissions.ToList();
-        }
-
-        public StudentAdmission GetById(int id)
-        {
-            return _context.StudentAdmissions.FirstOrDefault(e => e.StudentId == id);
-        }      
+   
     }
 }

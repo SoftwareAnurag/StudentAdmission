@@ -10,10 +10,6 @@ namespace StudentAdmissionSystem.Domain.Interfaces
     public interface IStudentAdmissionRepository
     {
         void Add(StudentAdmission admission);
-
-        IEnumerable<StudentAdmission> GetAll();
-
-        StudentAdmission GetById(int id);
-
+     
     }
 }

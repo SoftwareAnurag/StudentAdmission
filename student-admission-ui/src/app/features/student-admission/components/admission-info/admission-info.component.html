@@ -6,7 +6,7 @@
 <ng-template #noData>
   <p style="color: red;">⚠ No Student ID found. Please complete Step 1 first.</p>
 </ng-template>
-  <form>
+  <form [formGroup]="admissioninfoForm" (ngSubmit)="onSubmit()">
     <div class="row mb-3">
       <div class="col">
         <label>Course</label>

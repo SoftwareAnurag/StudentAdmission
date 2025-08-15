@@ -33,7 +33,8 @@ namespace StudentAdmissionSystem.Application.Services
                 var dto = new CourseDto
                 {
                     CourseId = course.CourseId,
-                    CourseName = course.CourseName
+                    CourseName = course.CourseName,
+                    Fees = course.Fees,
                 };
 
                 courseDtoList.Add(dto); // List me add karo

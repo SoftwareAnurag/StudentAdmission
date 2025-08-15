@@ -9,6 +9,6 @@ namespace StudentAdmissionSystem.Application.Interfaces
 {
     public interface IStudentAdmissionService
     {
-        IEnumerable<StudentAdmissionDto> GetAllAdmissions();
+        int CreateAdmission(StudentAdmissionDto stdAdmDto);
     }
 }

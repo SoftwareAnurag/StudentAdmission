@@ -1,5 +1,6 @@
 ﻿using StudentAdmissionSystem.Application.DTOs;
 using StudentAdmissionSystem.Application.Interfaces;
+using StudentAdmissionSystem.Domain.Entities;
 using StudentAdmissionSystem.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,18 +19,23 @@ namespace StudentAdmissionSystem.Application.Services
             _repo = repo;
         }
 
-        public IEnumerable<StudentAdmissionDto> GetAllAdmissions()
-        {
-            var admissions = _repo.GetAll(); // returns IEnumerable<StudentAdmission> (entity)
-            var dtos = admissions.Select(a => new StudentAdmissionDto
+        public int CreateAdmission(StudentAdmissionDto stdAdmDto) {
+
+           
+            var studentAdmission = new StudentAdmission
             {
-                AdmissionId = a.AdmissionId,
-                StudentFullName = a.Student.FullName,
-                CourseName = a.Course.CourseName,
-                StatusName = a.Status.StatusName,
-                AdmissionDate = a.AdmissionDate
-            });
-            return dtos;
+                AdmissionId = stdAdmDto.AdmissionId,
+                StudentId = stdAdmDto.StudentId,
+                CourseId = stdAdmDto.CourseId.Value,
+                SessionId = stdAdmDto.SessionId.Value,
+                StatusId = stdAdmDto.StatusId.Value,
+            
+            };
+
+            _repo.Add(studentAdmission);
+            return studentAdmission.AdmissionId;
+          
         }
+        
     }
 }
