@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Remoting.Contexts;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Http;
 using StudentAdmissionSystem.Application.DTOs;
-using System.Web.Services.Description;
 using StudentAdmissionSystem.Application.Interfaces;
 using StudentAdmissionSystem.Application.Services;
-using StudentAdmissionSystem.Domain.Entities;
-using StudentAdmissionSystem.Domain.Interfaces;
 using StudentAdmissionSystem.Infrastructure.Data;
 using StudentAdmissionSystem.Infrastructure.Repositories;
 
@@ -42,6 +34,31 @@ namespace StudentAdmissionSystem.API.Controllers
            int admissionID =  _service.CreateAdmission(admissionDto);
 
             return Ok(new { admissionID });
+        }
+
+
+        [HttpGet]    
+        [Route("api/admission/{stdID}")]
+        public IHttpActionResult GetAdmDetailsByStdID(int stdID) {
+
+            var admData = _service.GetAdmissionDetailsByStudentID(stdID);
+
+            // Custom object return karo Angular ke liye
+            var response = admData.Select(a => new
+            {
+                a.AdmissionId,
+                a.FullName,
+                a.Email,
+                a.PhoneNumber,
+                a.CourseName,
+                a.CourseFee,
+                a.StatusId,
+                a.StatusName,
+            });
+
+
+            return Ok(new { response });
+
         }
     }
 }

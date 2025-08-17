@@ -20,7 +20,6 @@ namespace StudentAdmissionSystem.Application.Services
         }
 
         public int CreateAdmission(StudentAdmissionDto stdAdmDto) {
-
            
             var studentAdmission = new StudentAdmission
             {
@@ -36,6 +35,38 @@ namespace StudentAdmissionSystem.Application.Services
             return studentAdmission.AdmissionId;
           
         }
-        
+
+        public IEnumerable<StudentAdmissionDto> GetAdmissionDetailsByStudentID(int StudentID) {
+
+            // 1. Repository se data lao (Domain entities)
+            var admList = _repo.GetAdmissionDetailsByStudentIDAsync(StudentID);
+
+            // 2. Naya list banao for DTO
+            var admissionDtoList = new List<StudentAdmissionDto>();
+
+            // 3. Har Admission ko AdmissionDto me convert karo
+            foreach (var list in admList)
+            {
+                var dto = new StudentAdmissionDto
+                {
+                    AdmissionId = list.AdmissionId,
+                    FullName = list.Student.FullName,
+                    Email = list.Student.Email,
+                    PhoneNumber = list.Student.PhoneNumber,
+                    CourseName = list.Course.CourseName,
+                    CourseFee = list.Course.Fees,
+                    StatusId = list.Status.StatusId,
+                    StatusName = list.Status.StatusName,
+                };
+
+                admissionDtoList.Add(dto); // List me add karo
+            }
+
+            // 4. Final DTO list return karo
+            return admissionDtoList;
+
+        }
+
+
     }
 }

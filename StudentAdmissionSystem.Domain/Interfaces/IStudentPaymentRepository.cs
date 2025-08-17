@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace StudentAdmissionSystem.Domain.Interfaces
 {
-    public interface IStudentAdmissionRepository
+    public interface IStudentPaymentRepository
     {
-        void Add(StudentAdmission admission);
-
-       IEnumerable<StudentAdmission> GetAdmissionDetailsByStudentIDAsync(int studentId);
-        
+        void Add(StudentPayment payment);
+       
     }
 }

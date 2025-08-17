@@ -27,5 +27,14 @@ namespace StudentAdmissionSystem.Application.DTOs
 
         public DateTime? CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
+
+        //Additional Propertes 
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string CourseName { get; set; } 
+        public decimal CourseFee { get; set; }
+        public string StatusName { get; set; }
+
     }
 }

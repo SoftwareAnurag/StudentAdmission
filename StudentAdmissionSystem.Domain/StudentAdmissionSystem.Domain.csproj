@@ -57,9 +57,11 @@
     <Compile Include="Entities\Session.cs" />
     <Compile Include="Entities\Student.cs" />
     <Compile Include="Entities\StudentAdmission.cs" />
+    <Compile Include="Entities\StudentPayment.cs" />
     <Compile Include="Interfaces\ICourseRepository.cs" />
     <Compile Include="Interfaces\ISessionRepository.cs" />
     <Compile Include="Interfaces\IStudentAdmissionRepository.cs" />
+    <Compile Include="Interfaces\IStudentPaymentRepository.cs" />
     <Compile Include="Interfaces\IStudentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

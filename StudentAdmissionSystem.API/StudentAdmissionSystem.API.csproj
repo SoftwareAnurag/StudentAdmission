@@ -119,6 +119,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\StudentAdmissionController.cs" />
     <Compile Include="Controllers\StudentController.cs" />

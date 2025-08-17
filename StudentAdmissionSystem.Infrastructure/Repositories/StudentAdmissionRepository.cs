@@ -25,6 +25,19 @@ namespace StudentAdmissionSystem.Infrastructure.Repositories
             _context.StudentAdmissions.Add(admission);
             _context.SaveChanges();
         }
-   
+
+        public IEnumerable<StudentAdmission> GetAdmissionDetailsByStudentIDAsync(int studentID)
+        {
+            // EF query based on join
+            var admission =  _context.StudentAdmissions
+                .Include(a => a.Student)  // join with Student table
+                .Include(a => a.Course)   // join with Course table
+                .Include(a => a.Status)   // join with Course table
+                .Where(a => a.StudentId == studentID)
+                .ToList();
+
+            return admission;
+        }
+
     }
 }

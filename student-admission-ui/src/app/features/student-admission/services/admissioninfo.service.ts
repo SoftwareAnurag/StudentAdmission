@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { StudentAdmissionDto } from '../models/student-admission-dto.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,4 +15,9 @@ export class AdmissionInfoService {
   saveAdmissionData(admissioninfo: any): Observable<any> {
     return this.http.post(this.apiUrl, admissioninfo);
   }
+
+  getAdmissionDetails(studentId: number): Observable<StudentAdmissionDto[]> {
+     return this.http.get<StudentAdmissionDto[]>(`${this.apiUrl}/student/${studentId}`);
+    }
+
 }

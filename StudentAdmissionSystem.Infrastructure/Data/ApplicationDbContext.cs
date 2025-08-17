@@ -34,5 +34,7 @@ namespace StudentAdmissionSystem.Infrastructure.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<AdmissionStatus> AdmissionStatuses { get; set; }
+
+        public DbSet<StudentPayment> StudentPayments { get; set; }
     }
 }

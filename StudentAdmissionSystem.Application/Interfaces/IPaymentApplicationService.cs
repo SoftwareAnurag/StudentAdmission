@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace StudentAdmissionSystem.Application.Interfaces
 {
-    public interface IStudentAdmissionService
+    public interface IPaymentApplicationService
     {
-        int CreateAdmission(StudentAdmissionDto stdAdmDto);
-
-        IEnumerable<StudentAdmissionDto> GetAdmissionDetailsByStudentID(int studentId);
+        object VerifyAndSavePayment(PaymentResponseDto dto);
     }
 }
