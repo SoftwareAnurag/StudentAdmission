@@ -1,5 +1,5 @@
 trigger:
-- main
+- main   # Pipeline triggers on any push to main branch
 
 pool:
   vmImage: 'windows-latest'
@@ -10,32 +10,46 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+# Checkout repository
 - checkout: self
 
+# Install NuGet (latest)
 - task: NuGetToolInstaller@1
 
+# Restore NuGet packages for all projects
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
 
+# Optional: Clean solution before build
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(Build.ArtifactStagingDirectory)"'
+    msbuildArgs: '/t:Clean'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+# Build all projects and create API package
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:PackageLocation="$(Build.ArtifactStagingDirectory)" /p:SkipInvalidConfigurations=true'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+# Run unit tests (optional)
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+# Publish build artifacts (API package)
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
+    ArtifactName: 'API_Package'
 
-# Optional Deployment
+# Optional: Deploy API to Azure App Service
 # - task: AzureWebApp@1
 #   inputs:
 #     azureSubscription: 'YOUR_AZURE_SERVICE_CONNECTION'
