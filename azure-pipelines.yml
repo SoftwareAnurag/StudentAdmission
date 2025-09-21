@@ -1,0 +1,56 @@
+# ASP.NET / .NET Framework 4.8 Pipeline
+# Build, test, and publish .NET Framework projects
+# Reference: https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+
+# 1️⃣ Clean obj and bin folders to avoid CSC errors
+- script: |
+    rd /s /q "$(Build.SourcesDirectory)\obj"
+    rd /s /q "$(Build.SourcesDirectory)\bin"
+  displayName: 'Clean obj and bin folders'
+
+# 2️⃣ Install NuGet (latest)
+- task: NuGetToolInstaller@1
+  displayName: 'Install NuGet'
+
+# 3️⃣ Restore NuGet packages
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+  displayName: 'Restore NuGet Packages'
+
+# 4️⃣ Build solution using VSBuild
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:Configuration=$(buildConfiguration)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+  displayName: 'Build Solution'
+
+# 5️⃣ Run Unit Tests (optional)
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+  displayName: 'Run Unit Tests'
+
+# 6️⃣ Publish build artifacts (optional)
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  displayName: 'Publish Artifacts'
