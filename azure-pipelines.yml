@@ -1,7 +1,4 @@
-# ASP.NET / .NET Framework 4.8 Pipeline
-# Build, test, and publish .NET Framework projects
-# Reference: https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
-
+# Azure DevOps Pipeline for .NET Framework 4.8 Web API + Class Libraries
 trigger:
 - master
 
@@ -15,7 +12,7 @@ variables:
 
 steps:
 
-# 1️⃣ Clean obj and bin folders to avoid CSC errors
+# 1️⃣ Clean obj/bin folders to prevent CSC errors
 - script: |
     rd /s /q "$(Build.SourcesDirectory)\obj"
     rd /s /q "$(Build.SourcesDirectory)\bin"
@@ -31,14 +28,14 @@ steps:
     restoreSolution: '$(solution)'
   displayName: 'Restore NuGet Packages'
 
-# 4️⃣ Build solution using VSBuild
+# 4️⃣ Build solution using VSBuild (Web API + class libraries)
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:Configuration=$(buildConfiguration)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-  displayName: 'Build Solution'
+  displayName: 'Build Web API Project and Libraries'
 
 # 5️⃣ Run Unit Tests (optional)
 - task: VSTest@2
@@ -47,10 +44,10 @@ steps:
     configuration: '$(buildConfiguration)'
   displayName: 'Run Unit Tests'
 
-# 6️⃣ Publish build artifacts (optional)
+# 6️⃣ Publish build artifacts
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(build.artifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
   displayName: 'Publish Artifacts'
