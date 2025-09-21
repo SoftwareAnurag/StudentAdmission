@@ -12,13 +12,13 @@ variables:
 
 steps:
 
-# 1️⃣ Clean obj/bin folders to prevent CSC errors
+# 1️⃣ Clean obj/bin folders safely
 - script: |
-    rd /s /q "$(Build.SourcesDirectory)\obj"
-    rd /s /q "$(Build.SourcesDirectory)\bin"
+    if exist "$(Build.SourcesDirectory)\obj" rd /s /q "$(Build.SourcesDirectory)\obj"
+    if exist "$(Build.SourcesDirectory)\bin" rd /s /q "$(Build.SourcesDirectory)\bin"
   displayName: 'Clean obj and bin folders'
 
-# 2️⃣ Install NuGet (latest)
+# 2️⃣ Install NuGet
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet'
 
@@ -28,7 +28,7 @@ steps:
     restoreSolution: '$(solution)'
   displayName: 'Restore NuGet Packages'
 
-# 4️⃣ Build solution using VSBuild (Web API + class libraries)
+# 4️⃣ Build solution (Web API + class libraries)
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
