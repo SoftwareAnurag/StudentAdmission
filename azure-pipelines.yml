@@ -1,8 +1,53 @@
+# Azure DevOps Pipeline for .NET Framework 4.8 Web API + Class Libraries
 trigger:
-- main
+- master
 
 pool:
   vmImage: 'windows-latest'
 
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
 steps:
-- script: echo "Hello World from Azure DevOps!"
+
+# 1️⃣ Clean obj/bin folders safely
+- script: |
+    if exist "$(Build.SourcesDirectory)\obj" rd /s /q "$(Build.SourcesDirectory)\obj"
+    if exist "$(Build.SourcesDirectory)\bin" rd /s /q "$(Build.SourcesDirectory)\bin"
+  displayName: 'Clean obj and bin folders'
+
+# 2️⃣ Install NuGet
+- task: NuGetToolInstaller@1
+  displayName: 'Install NuGet'
+
+# 3️⃣ Restore NuGet packages
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+  displayName: 'Restore NuGet Packages'
+
+# 4️⃣ Build solution (Web API + class libraries)
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+  displayName: 'Build Web API Project and Libraries'
+
+# 5️⃣ Run Unit Tests (optional)
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+  displayName: 'Run Unit Tests'
+
+# 6️⃣ Publish build artifacts
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(build.artifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  displayName: 'Publish Artifacts'
