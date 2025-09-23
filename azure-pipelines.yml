@@ -48,8 +48,8 @@ steps:
   # 6️⃣ Setup Node.js (for Angular build)
   - task: NodeTool@0
     inputs:
-      versionSpec: '18.x'
-    displayName: 'Install Node.js'
+      versionSpec: '20.x'
+    displayName: 'Install Node.js 20'
 
   # 7️⃣ Install Angular dependencies
   - script: |
