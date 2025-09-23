@@ -53,13 +53,13 @@ steps:
 
   # 7️⃣ Install Angular dependencies
   - script: |
-      cd $(Build.SourcesDirectory)/$(uiProjectFolder)
+      cd $(Build.SourcesDirectory)/student-admission-ui
       npm install
     displayName: 'Install npm packages (Angular)'
 
   # 8️⃣ Build Angular for production
   - script: |
-      cd $(Build.SourcesDirectory)/$(uiProjectFolder)
+      cd $(Build.SourcesDirectory)/student-admission-ui
       npm run build -- --configuration production
     displayName: 'Build Angular UI (Production)'
 
