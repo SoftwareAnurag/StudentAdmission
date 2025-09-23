@@ -66,7 +66,7 @@ steps:
   # 9️⃣ Copy Angular dist into artifact staging directory
   - task: CopyFiles@2
     inputs:
-      SourceFolder: '$(Build.SourcesDirectory)/$(uiProjectFolder)/dist'
+      SourceFolder: '$(Build.SourcesDirectory)/ui/dist/student-admission-ui'
       TargetFolder: '$(build.artifactStagingDirectory)/ui-dist'
     displayName: 'Copy Angular dist to Artifacts'
 
