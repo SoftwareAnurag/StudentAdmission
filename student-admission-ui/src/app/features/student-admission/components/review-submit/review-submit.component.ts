@@ -1,36 +1,50 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { StepDataService } from '../../services/step-data.service';
-import { CourseService } from '../../services/course.service';
 import { Course } from '../../models/course.model';
 import { PaymentService } from '../../services/payment.service';
+import { AdmissionInfoService } from '../../services/admissioninfo.service';
+import { StudentAdmissionDto } from '../../models/student-admission-dto.model';
 
 declare var Razorpay: any;
 
 @Component({
   selector: 'app-review-submit',
-  standalone: true,
-  imports: [CommonModule],
+  standalone: false,
   templateUrl: './review-submit.component.html',
   styleUrl: './review-submit.component.scss'
 })
 export class ReviewSubmitComponent implements OnInit {
 
   studentID: string | null = null;
+   admissionDetails: StudentAdmissionDto[] = []; // ✅ initialize here
   courses: Course[] = [];
   paymentStatus: string | null = null;
   paymentMessage: string = '';
 
   constructor(
     private stepDataService: StepDataService,
-    private courseService: CourseService,
+    private admissionInfoService: AdmissionInfoService,
     private paymentService: PaymentService,
     private ngZone: NgZone   // ✅ inject NgZone
   ) { }
 
   ngOnInit() {
-    this.studentID = this.stepDataService.getStudentID();
-    
+    this.studentID = '2007';
+    if (this.studentID) {
+      this.admissionInfoService.getAdmissionDetails(this.studentID)
+      .subscribe({
+        next: (data) => {
+          this.admissionDetails = data; // assign the array
+          console.log('✅ Data received:', this.admissionDetails); // Debug: check here
+        },
+        error: (err) => {
+          console.error('❌ API Error:', err);
+        }
+      });
+    } else {
+       console.warn('⚠️ No studentID found. Cannot fetch admission details.');
+    }
+  
   }
 
   payNow() {

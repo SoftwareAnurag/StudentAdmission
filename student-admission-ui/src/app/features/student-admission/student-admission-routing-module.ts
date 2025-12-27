@@ -4,11 +4,11 @@ import { StudentInfoComponent } from './components/student-info/student-info.com
 import { AdmissionInfoComponent } from './components/admission-info/admission-info.component';
 import { ReviewSubmitComponent } from './components/review-submit/review-submit.component';
 
+
 const routes: Routes = [
-  { path: '', component: StudentInfoComponent },  // Step 1
-  { path: 'step2', component: AdmissionInfoComponent }, // Step 2
-  { path: 'step3', component: ReviewSubmitComponent } // Step 3
-  
+  { path: '', component: StudentInfoComponent },
+  { path: 'step2', component: AdmissionInfoComponent },
+  { path: 'step3', component: ReviewSubmitComponent }
 ];
 
 @NgModule({

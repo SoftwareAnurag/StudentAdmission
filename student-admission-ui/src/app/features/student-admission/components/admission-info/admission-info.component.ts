@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { StepDataService } from '../../services/step-data.service';
 import { CourseService } from '../../services/course.service';
 import { Course } from '../../models/course.model';
@@ -11,15 +10,12 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admission-info',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  standalone: false,
   templateUrl: './admission-info.component.html',
   styleUrl: './admission-info.component.scss'
 })
 export class AdmissionInfoComponent implements OnInit {
 
- 
-  
      studentID: string | null = null;
      courses: Course[] = [];
      sessions: Session[] = [];

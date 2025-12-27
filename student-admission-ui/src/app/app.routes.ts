@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-import { StudentInfoComponent } from './features/student-admission/components/student-info/student-info.component';
-import { AdmissionInfoComponent } from './features/student-admission/components/admission-info/admission-info.component';
 
 export const routes: Routes = [
   {

@@ -1,7 +1,7 @@
 <div class="container mt-4">
   <h3 class="mb-4">Step 2: Student Information</h3>
 <div *ngIf="studentID; else noData">
-  <p><strong>Student ID:</strong> {{ studentID }}</p>
+  <h4>Student ID: {{ studentID }}</h4>
 </div>
 <ng-template #noData>
   <p style="color: red;">⚠ No Student ID found. Please complete Step 1 first.</p>

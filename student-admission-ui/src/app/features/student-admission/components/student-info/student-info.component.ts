@@ -4,18 +4,20 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { StudentService } from '../../services/student.service';
 import { StepDataService } from '../../services/step-data.service';
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
   selector: 'app-student-info',
-  standalone: true,
+  standalone: false,
   templateUrl: './student-info.component.html',
-  styleUrls: ['./student-info.component.scss'], // ✅ corrected 'styleUrl' to 'styleUrls'
-  imports: [CommonModule, ReactiveFormsModule]
+  styleUrls: ['./student-info.component.scss'], 
+  //imports: [CommonModule, ReactiveFormsModule]
 })
 export class StudentInfoComponent implements OnInit {
 
   studentForm!: FormGroup;
+  isSubmitting = false;
 
   constructor(
     private fb: FormBuilder,
@@ -39,48 +41,53 @@ export class StudentInfoComponent implements OnInit {
 
   onSubmit(): void {
  
+    this.isSubmitting = true; 
     if (this.studentForm.invalid) {
       this.studentForm.markAllAsTouched();
       return;
     }
 
     const v = this.studentForm.getRawValue();
-    // 👇 Map Angular form → Server DTO (names must match the DTO)
+   
     const payload = {
       FullName: `${(v.firstName || '').trim()} ${(v.lastName || '').trim()}`.trim(),
-      DateOfBirth: toIsoUtcDate(v.dob),  // make proper ISO date
+      DateOfBirth: toIsoUtcDate(v.dob),  
       Gender: (v.gender || '').trim(),
       Email: (v.email || '').trim(),
       PhoneNumber: (v.phone || '').trim(),
       Address: (v.address || '').trim() || null
-      // CreatedOn: server set करेगा; मत भेजें
+      
     };
-
-    console.log('Payload to API →', payload);
     
     if (this.studentForm.valid) {
       const studentData = this.studentForm.value;
 
-      this.studentService.saveStudent(payload).subscribe({
+      this.studentService.saveStudent(payload)
+      .pipe(
+        finalize(() => {        
+          this.isSubmitting = false;
+        })  
+      )
+          
+      .subscribe({
         next: (res) => {
           console.log('✅ Student Info Saved:', res);
             this.stepDataService.setStudentID(res.studentId); // store studentID
-          this.router.navigate(['/student-admission/step2']); // 👈 go to next step
+            this.router.navigate(['/student-admission/step2']); //next step
         },
         error: (err) => {
-          console.error('❌ Failed to Save Student Info:', err);
+          console.error('❌ Failed to Save Student Info:', err);       
         }
       });
     } else {
       this.studentForm.markAllAsTouched();
     }
 
-    /** helper: yyyy-MM-dd OR Date → UTC midnight ISO string */
       function toIsoUtcDate(value: any): string {
         if (!value) return '';
         const d = value instanceof Date ? value : new Date(value);
         const utc = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-        return utc.toISOString(); // e.g., "2005-01-15T00:00:00.000Z"
+        return utc.toISOString(); 
       }
   }
   

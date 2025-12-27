@@ -32,7 +32,6 @@ namespace StudentAdmissionSystem.API.Controllers
                 return BadRequest(ModelState);   // <-- no extra file
             }
                
-
             int studentId = _service.AddStudent(dto);
             return Ok(new { studentId });
         }
